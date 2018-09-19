@@ -4,10 +4,11 @@ require 'nokogiri'
 NBSP = Nokogiri::HTML("&nbsp;")
 
 def parse(file)
-  page = Nokogiri::HTML(file)
-  rows = page.css('table[width="728"] > tr')
   attributes = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = [] } }
   section_key = 'DEFAULT'
+  page = Nokogiri::HTML(file)
+  attributes[section_key]['Name'] = page.css('font[size="6"][color="#C00000"]').map(&:text)
+  rows = page.css('table[width="728"] > tr')
   rows.each do |row|
     cells = row.css('> td')
     if cells.length == 1
@@ -52,7 +53,7 @@ class Extractor
         result = values.map do |value|
           (value.match(pattern) || {})[group]
         end
-        result.one? ? result.first : result
+        (result.length <= 1) ? result.first : result
       end
     end
   end
@@ -135,10 +136,10 @@ end
 
 path = Pathname.new('sailboatdata')
 path.each_child do |filename|
-  next unless filename.to_s.match(%r{sailboatdata/102})
+  puts filename
   file = File.open(filename)
   attributes = parse(file)
   p attributes
-  p transform(attributes)
-  break
+  result = transform(attributes)
+  p result
 end
