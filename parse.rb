@@ -62,6 +62,7 @@ end
 def transform(attributes)
   e = Extractor.new(attributes)
   {
+    'name' => e.extract('DEFAULT', 'Name'),
     'hull_type' => e.extract('DEFAULT', 'Hull Type'),
     'rig_type' => e.extract('DEFAULT', 'Rig Type'),
     'length_overall_in_feet' => e.extract('DEFAULT', 'LOA', FT_AND_M, 'ft'),
