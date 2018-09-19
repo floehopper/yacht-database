@@ -1,0 +1,14 @@
+{
+    "databases": {
+        "yachts": {
+            "tables": {
+                "yachts": {
+                    "units": {
+                        "length_overall_in_feet": "feet",
+                        "length_overall_in_metres": "metres"
+                    }
+                }
+            }
+        }
+    }
+}
